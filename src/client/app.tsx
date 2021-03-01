@@ -1,34 +1,28 @@
-import * as React from "react";
-import { DataType } from "@common";
-import { SpeechifyClient } from "@common/client";
-import { PlayButton, AddToQueueButton } from "./components";
+import React from 'react';
+import { DataType } from '@common';
+import SpeechifyClient from './speechify';
+import { PlayButton, AddToQueueButton } from './components';
+import DataGenerator from './generator';
 
-type Props = {
+interface Props {
   client: SpeechifyClient;
-  generator: any;
-};
+  generator: DataGenerator;
+}
 
-export default function App(props: Props) {
+export default function App(props: Props): JSX.Element {
+  const DataTypes = [DataType.HTML, DataType.TXT, DataType.JSON];
   return (
     <>
       <h1>Speechify CarPlay</h1>
       <PlayButton client={props.client} />
       <div className="add-to-queue-buttons">
-        <AddToQueueButton
-          client={props.client}
-          generator={props.generator}
-          type={DataType.HTML}
-        />
-        <AddToQueueButton
-          client={props.client}
-          generator={props.generator}
-          type={DataType.TXT}
-        />
-        <AddToQueueButton
-          client={props.client}
-          generator={props.generator}
-          type={DataType.JSON}
-        />
+        {
+          DataTypes.map(dataType => <AddToQueueButton
+            client={props.client}
+            generator={props.generator}
+            type={dataType}
+          />)
+        }
       </div>
     </>
   );

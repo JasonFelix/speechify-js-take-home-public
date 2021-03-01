@@ -1,7 +1,7 @@
 export enum DataType {
-  HTML = "HTML",
-  TXT = "TXT",
-  JSON = "JSON",
+  HTML = 'HTML',
+  TXT = 'TXT',
+  JSON = 'JSON',
 }
 
 export type Data = {
@@ -10,10 +10,13 @@ export type Data = {
   data: string;
 };
 
-// TODO: refine this type to represent a unit of streaming content
-export type StreamChunk = any;
+export type StreamChunk = {
+  id: string;
+  source: string;
+  text: string;
+};
 
 export interface Speechify {
-  addToQueue(data: Data): boolean;
+  addToQueue(id: string, data: Data): boolean;
   getNextChunk(): StreamChunk | undefined;
 }

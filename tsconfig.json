@@ -2,8 +2,9 @@
     "extends": "@tsconfig/node12/tsconfig.json",
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
+        "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "target": "es5",
+        "target": "es2020",
         "jsx": "react",
         "lib": ["dom"],
         "module": "commonjs",
@@ -19,5 +20,8 @@
     "include": [
         "./src/client",
         "./src/common"
+    ],
+    "exclude": [
+        "./tsconfig.server.json"
     ]
 }

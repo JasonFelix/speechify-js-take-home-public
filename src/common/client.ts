@@ -1,4 +1,4 @@
-import { Data } from "@common";
+import { Data } from '@common';
 
 export enum ClientEventType {
   STATE,
@@ -17,9 +17,7 @@ type ClientStateEvent = {
 export type SpeechifyClientEvent = ClientStateEvent;
 
 export interface SpeechifyClient {
-  addToQueue(data: Data): Promise<boolean>;
+  addToQueue(id: string, data: Data): Promise<void>;
   play(): void;
   pause(): void;
-  getState(): ClientState;
-  subscribe(listener: (event: SpeechifyClientEvent) => void): () => void;
 }

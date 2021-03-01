@@ -1,16 +1,29 @@
-import { DataType, Data, StreamChunk } from "@common";
-import { SpeechifyServer } from "@common/server";
+import { Data, StreamChunk } from '@common';
+import { SpeechifyServer } from '@common/server';
+import Parser from './Parser';
+import { NodeQueue } from './Queues/NodeQueue';
 
+export interface Observer { id: string; signal: () => void }
 export default class MySpeechify implements SpeechifyServer {
-  constructor() {}
+  queue: NodeQueue<StreamChunk> = new NodeQueue<StreamChunk>();
+  observers: Observer[] = [];
 
-  addToQueue(data: Data): boolean {
-    console.error("addToQueue not implemented");
-    return true;
+  addObserver(listener: Observer): void {
+    this.observers.push(listener);
+  }
+
+  removeObserver(id: string): void {
+    this.observers = this.observers.filter(ob => ob.id !== id);
+  }
+
+  addToQueue(id: string, data: Data): void {
+    Parser.parse(data).then(text => {
+      this.queue.enqueue({ id, source: data.source, text } );
+      this.observers.forEach(l => l.signal());
+    })
   }
 
   getNextChunk(): StreamChunk | undefined {
-    console.error("getNextChunk not implemented");
-    return undefined;
+    return this.queue.dequeue();
   }
 }

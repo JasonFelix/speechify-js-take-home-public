@@ -1,6 +1,6 @@
-import { Data, StreamChunk } from "@common";
+import { Data, StreamChunk } from '@common';
 
 export interface SpeechifyServer {
-  addToQueue(data: Data): boolean;
+  addToQueue(id: string, data: Data): void;
   getNextChunk(): StreamChunk | undefined;
 }
